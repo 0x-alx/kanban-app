@@ -3,13 +3,15 @@ import { Sidebar, Topbar } from '../'
 </script>
 
 <template>
-  <div class="flex flex-row h-full">
-    <Sidebar />
-    <div class="flex-1">
-      <Topbar />
-      <div class="flex-1 p-6">
-        <slot />
-      </div>
+    <div class="flex flex-row h-full">
+        <div class="hidden h-full md:flex">
+            <Sidebar />
+        </div>
+        <div class="flex-1">
+            <Topbar />
+            <div class="flex-1 p-6">
+                <slot />
+            </div>
+        </div>
     </div>
-  </div>
 </template>

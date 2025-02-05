@@ -1,46 +1,55 @@
 @theme {
-  /* Primary Purple Colors */
-  --color-primary-light: #a8a4ff;
-  --color-primary: #635fc7;
+    /* Base Colors */
+    --color-primary-light: #a8a4ff;
+    --color-primary: #635fc7;
 
-  /* Dark Colors */
-  --color-dark: #000112;
-  --color-dark-secondary: #20212c;
-  --color-dark-tertiary: #2b2c37;
-  --color-dark-quaternary: #3e3f4e;
+    --color-dark: #000112;
+    --color-dark-secondary: #20212c;
+    --color-dark-tertiary: #2b2c37;
+    --color-dark-quaternary: #3e3f4e;
 
-  /* Gray Colors */
-  --color-gray: #828fa3;
-  --color-gray-light: #e4ebfa;
-  --color-gray-lighter: #f4f7fd;
-  --color-white: #ffffff;
+    --color-gray: #828fa3;
+    --color-gray-light: #e4ebfa;
+    --color-gray-lighter: #f4f7fd;
+    --color-white: #ffffff;
 
-  /* Accent/Warning Colors */
-  --color-red: #ea5555;
-  --color-red-light: #ff9898;
+    --color-red: #ea5555;
+    --color-red-light: #ff9898;
 
-  /* Typography */
-  /* Headings */
-  --font-heading-xl: 24px;
-  --line-height-heading-xl: 30px;
+    /* Theme Variables */
+    --color-background: var(--color-gray-lighter);
+    --color-surface: var(--color-white);
+    --color-text: var(--color-dark);
 
-  --font-heading-l: 18px;
-  --line-height-heading-l: 23px;
+    /* Typography */
+    /* Headings */
+    --font-heading-xl: 24px;
+    --line-height-heading-xl: 30px;
 
-  --font-heading-m: 15px;
-  --line-height-heading-m: 19px;
+    --font-heading-l: 18px;
+    --line-height-heading-l: 23px;
 
-  --font-heading-s: 12px;
-  --line-height-heading-s: 15px;
-  --letter-spacing-heading-s: 2.4px;
+    --font-heading-m: 15px;
+    --line-height-heading-m: 19px;
 
-  /* Body Text */
-  --font-body-l: 13px;
-  --line-height-body-l: 23px;
+    --font-heading-s: 12px;
+    --line-height-heading-s: 15px;
+    --letter-spacing-heading-s: 2.4px;
 
-  --font-body-m: 12px;
-  --line-height-body-m: 15px;
+    /* Body Text */
+    --font-body-l: 13px;
+    --line-height-body-l: 23px;
 
-  /* Font Family */
-  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+    --font-body-m: 12px;
+    --line-height-body-m: 15px;
+
+    /* Font Family */
+    --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Theme Overrides - Outside @theme block */
+[data-theme='dark'] {
+    --color-background: var(--color-dark-secondary);
+    --color-surface: var(--color-dark-tertiary);
+    --color-text: var(--color-white);
 }
