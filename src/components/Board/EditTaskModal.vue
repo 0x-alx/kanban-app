@@ -3,6 +3,7 @@ import { ref, watchEffect, computed } from 'vue'
 import { store } from '@/store/store'
 import Checkbox from '@/components/Checbox/Checkbox.vue'
 import Modal from '@/components/Modal/Modal.vue'
+import Select from '@/components/Select/Select.vue'
 const isOpen = ref(false)
 
 watchEffect(() => {
@@ -19,6 +20,13 @@ const totalSubtasks = computed(() => {
 
 const completedSubtasks = computed(() => {
     return store.selectedTask.subtasks.filter((subtask) => subtask.isCompleted).length
+})
+
+const statusOptions = computed(() => {
+    return store.selectedBoard.columns.map((column) => ({
+        value: column.id,
+        label: column.name,
+    }))
 })
 </script>
 
@@ -43,6 +51,7 @@ const completedSubtasks = computed(() => {
                     :subtask="subtask"
                 />
             </div>
+            <Select label="Status" :options="statusOptions" />
         </div>
     </Modal>
 </template>
