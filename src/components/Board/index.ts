@@ -1,3 +1,3 @@
-import Board from './Board.vue'
+import BoardLayout from './BoardLayout.vue'
 
-export default Board
+export default BoardLayout

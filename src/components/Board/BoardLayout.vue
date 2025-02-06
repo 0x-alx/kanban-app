@@ -1,0 +1,28 @@
+<script setup lang="ts">
+import { ref, watchEffect } from 'vue'
+import { store } from '@/store/store'
+import { Button } from '@/components'
+import KanbanBoard from './KanbanBoard.vue'
+
+const columns = ref([])
+const isLoading = ref(true)
+
+watchEffect(() => {
+    if (store.selectedBoard?.columns) {
+        columns.value = store.selectedBoard.columns
+        isLoading.value = false
+    }
+})
+</script>
+
+<template>
+    <div class="w-full h-[calc(100vh-128px)] flex flex-col gap-8 items-center justify-center p-6">
+        <div v-if="columns.length === 0" class="flex flex-col gap-4 items-center justify-center">
+            <h1 class="text-gray text-xl font-bold text-center">
+                This board is empty. Create a new column to get started.
+            </h1>
+            <Button label="+ Add New Column" />
+        </div>
+        <KanbanBoard v-else :columns="columns" :isLoading="isLoading" />
+    </div>
+</template>

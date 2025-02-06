@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { Layout, Board } from './components'
+import { ref } from 'vue'
+import { Layout, BoardLayout } from './components'
 import { createTheme } from '@/utils/useTheme'
+import data from '@/data.json'
+import { store } from '@/store/store'
 // Initialize theme provider
 createTheme()
 </script>
 
 <template>
     <Layout>
-        <Board />
+        <BoardLayout />
     </Layout>
 </template>
