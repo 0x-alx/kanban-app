@@ -1,4 +1,4 @@
-import type { Board } from '@/types'
+import type { Board, Task } from '@/types'
 import { reactive } from 'vue'
 export const store = reactive({
     selectedBoard: {} as Board,
@@ -10,5 +10,14 @@ export const store = reactive({
     toggleSidebar() {
         console.log('toggleSidebar', store.isSidebarHidden)
         this.isSidebarHidden = !this.isSidebarHidden
+    },
+    showEditTaskModal: false,
+    setShowEditTaskModal(show: boolean) {
+        console.log('setShowEditTaskModal', show)
+        this.showEditTaskModal = show
+    },
+    selectedTask: {} as Task,
+    setSelectedTask(task: Task) {
+        this.selectedTask = task
     },
 })
