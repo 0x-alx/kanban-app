@@ -1,6 +1,7 @@
-import Button from './Button/index'
-import Layout from './Layout/index'
-import Sidebar from './Sidebar/index'
-import Topbar from './Topbar/index'
+import Board from './Board'
+import Button from './Button'
+import Layout from './Layout'
+import Sidebar from './Sidebar'
+import Topbar from './Topbar'
 
-export { Button, Layout, Sidebar, Topbar }
+export { Board, Button, Layout, Sidebar, Topbar }

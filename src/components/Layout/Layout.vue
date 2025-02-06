@@ -9,9 +9,7 @@ import { Sidebar, Topbar } from '../'
         </div>
         <div class="flex-1">
             <Topbar />
-            <div class="flex-1 p-6">
-                <slot />
-            </div>
+            <slot />
         </div>
     </div>
 </template>
