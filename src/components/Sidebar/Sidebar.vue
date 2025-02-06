@@ -16,7 +16,7 @@ import { store } from '@/store/store'
     >
         <BoardList />
         <ThemeToggle />
-        <div class="flex w-full flex-col gap-4 pl-8 mt-6">
+        <div class="flex w-full flex-col gap-4 mt-6">
             <HideSidebarButton />
         </div>
     </div>
