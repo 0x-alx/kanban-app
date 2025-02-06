@@ -2,13 +2,17 @@
 import BoardListItem from './BoardListItem.vue'
 import CreateBoardButton from './CreateBoardButton.vue'
 import data from '@/data.json'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { store } from '@/store/store'
 
-// Initialize with the first board's id or 0 if no boards
-const selectedBoard = ref(data.boards[0]?.name ?? '')
 const boards = ref(data.boards)
-const onBoardClick = (name: string) => {
-    selectedBoard.value = name
+
+onMounted(() => {
+    store.selectedBoard = boards.value[0]
+})
+
+const handleBoardClick = (board: any) => {
+    store.onSelectedBoardChange(board)
 }
 </script>
 
@@ -23,8 +27,8 @@ const onBoardClick = (name: string) => {
             v-for="board in boards"
             :key="board.name"
             :title="board.name"
-            :onClick="() => onBoardClick(board.name)"
-            :selected="selectedBoard === board.name"
+            @click="() => handleBoardClick(board)"
+            :selected="store.selectedBoard.name === board.name"
         />
         <CreateBoardButton :title="'+ Create New Board'" />
     </div>

@@ -7,6 +7,7 @@ import logoDark from '@/assets/logo-dark.svg'
 import BoardList from './BoardList.vue'
 import HideSidebarButton from './HideSidebarButton.vue'
 const { theme } = useTheme()
+import { store } from '@/store/store'
 
 // Use computed for reactive logo switching
 const currentLogo = computed(() => (theme.value === 'light' ? logoDark : logoLight))
