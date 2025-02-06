@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
     <div v-if="isLoading" class="flex items-center justify-center w-full h-full">Loading...</div>
-    <div v-else class="flex gap-4 w-full h-full overflow-x-auto">
+    <div v-else class="flex gap-4 min-w-min p-6">
         <div
             v-for="column in columns"
             :key="column.name"

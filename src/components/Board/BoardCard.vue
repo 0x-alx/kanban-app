@@ -10,10 +10,6 @@ const props = defineProps<{
     }
 }>()
 
-const subtasks = computed(() => {
-    return props.task.subtasks.filter((subtask) => !subtask.isCompleted)
-})
-
 const completedSubtasks = computed(() => {
     return props.task.subtasks.filter((subtask) => subtask.isCompleted)
 })
@@ -24,7 +20,7 @@ const totalSubtasks = computed(() => {
 </script>
 
 <template>
-    <div class="bg-surface rounded-lg p-4 w-[280px]">
+    <div class="bg-surface rounded-lg p-4 w-[280px] shadow-md">
         <h3 class="text-text text-md font-bold">{{ title }}</h3>
         <span class="text-gray text-sm font-bold"
             >{{ completedSubtasks.length }} of {{ totalSubtasks }} subtasks</span

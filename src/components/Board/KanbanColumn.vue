@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 min-w-[280px]">
         <div class="w-full h-4 rounded-full"></div>
         <h3
             class="text-gray text-xs font-bold uppercase tracking-[var(--letter-spacing-heading-s)]"
