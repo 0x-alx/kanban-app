@@ -25,7 +25,7 @@ watchEffect(() => {
         </div>
         <button
             @click="store.toggleSidebar()"
-            class="absolute bottom-20 left-0 bg-primary p-4 rounded-r-full cursor-pointer"
+            class="absolute flex items-center justify-center w-16 bottom-20 -left-2 bg-primary p-4 rounded-r-full cursor-pointer hover:translate-x-2 transition-transform"
             :class="{ hidden: !isSidebarHidden }"
         >
             <img src="@/assets/icon-show-sidebar.svg" alt="Show Sidebar" />
