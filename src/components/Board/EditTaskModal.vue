@@ -33,7 +33,10 @@ const statusOptions = computed(() => {
 
 <template>
     <Modal :isOpen="isOpen">
-        <div class="flex flex-col gap-4 bg-surface rounded-lg p-4 w-[480px] text-white" @click.stop>
+        <div
+            class="flex max-w-[90%] flex-col gap-4 bg-surface rounded-lg p-4 w-[480px] text-white"
+            @click.stop
+        >
             <div class="flex items-center justify-between">
                 <h1 class="text-text text-lg font-bold">{{ store.selectedTask.title }}</h1>
             </div>
