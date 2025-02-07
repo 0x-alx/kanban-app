@@ -28,6 +28,12 @@ const statusOptions = computed(() => {
         label: column.name,
     }))
 })
+
+const updateSubtaskStatus = (index: number, value: boolean) => {
+    if (store.selectedTask && store.selectedTask.subtasks) {
+        store.selectedTask.subtasks[index].isCompleted = value
+    }
+}
 </script>
 
 <template>
