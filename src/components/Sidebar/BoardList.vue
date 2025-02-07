@@ -4,14 +4,32 @@ import CreateBoardButton from './CreateBoardButton.vue'
 import data from '@/data.json'
 import { ref, onMounted } from 'vue'
 import { store } from '@/store/store'
+import type { Board } from '@/types'
 
-const boards = ref(data.boards)
+// Add IDs to the data structure
+const boards = ref(
+    data.boards.map((board, boardIndex) => ({
+        ...board,
+        columns: board.columns.map((column, columnIndex) => ({
+            id: `col-${boardIndex}-${columnIndex}`,
+            ...column,
+            tasks: column.tasks.map((task, taskIndex) => ({
+                id: `task-${boardIndex}-${columnIndex}-${taskIndex}`,
+                ...task,
+                subtasks: task.subtasks.map((subtask, subtaskIndex) => ({
+                    id: `subtask-${boardIndex}-${columnIndex}-${taskIndex}-${subtaskIndex}`,
+                    ...subtask,
+                })),
+            })),
+        })),
+    })),
+)
 
 onMounted(() => {
     store.selectedBoard = boards.value[0]
 })
 
-const handleBoardClick = (board: any) => {
+const handleBoardClick = (board: Board) => {
     store.onSelectedBoardChange(board)
 }
 </script>

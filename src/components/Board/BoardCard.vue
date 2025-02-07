@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { store } from '@/store/store'
+import type { Task } from '@/types'
+
 const props = defineProps<{
     title: string
-    task: {
-        id: string | number
-        title: string
-        subtasks: Array<{ isCompleted: boolean }>
-    }
+    task: Task
 }>()
 
 const completedSubtasks = computed(() => {

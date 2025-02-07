@@ -1,4 +1,4 @@
-import { inject, provide, ref } from 'vue'
+import { inject, provide, ref, type Ref } from 'vue'
 
 /**
  * Définition du type pour les valeurs de thème
@@ -9,6 +9,12 @@ type Theme = 'light' | 'dark'
  * Clé symbole pour l'injection du thème
  */
 const THEME_KEY = Symbol('theme')
+
+type ThemeContext = {
+    theme: Ref<Theme>
+    toggleTheme: () => void
+    initTheme: () => void
+}
 
 /**
  * Crée et fournit le contexte de thème à l'application
@@ -23,24 +29,13 @@ const THEME_KEY = Symbol('theme')
 export const createTheme = () => {
     const theme = ref<Theme>('light')
 
-    provide(THEME_KEY, {
-        /** Valeur actuelle du thème */
+    const themeContext: ThemeContext = {
         theme,
-
-        /**
-         * Bascule entre les thèmes clair et sombre
-         * Met à jour le DOM et persiste la sélection dans localStorage
-         */
         toggleTheme: () => {
             theme.value = theme.value === 'light' ? 'dark' : 'light'
             document.documentElement.setAttribute('data-theme', theme.value)
             localStorage.setItem('theme', theme.value)
         },
-
-        /**
-         * Initialise le thème depuis localStorage si disponible
-         * Doit être appelé lors du montage du composant
-         */
         initTheme: () => {
             const savedTheme = localStorage.getItem('theme') as Theme | null
             if (savedTheme) {
@@ -48,7 +43,9 @@ export const createTheme = () => {
                 document.documentElement.setAttribute('data-theme', savedTheme)
             }
         },
-    })
+    }
+
+    provide(THEME_KEY, themeContext)
 }
 
 /**
@@ -63,8 +60,8 @@ export const createTheme = () => {
  * const { theme, toggleTheme, initTheme } = useTheme()
  * ```
  */
-export const useTheme = () => {
+export const useTheme = (): ThemeContext => {
     const theme = inject(THEME_KEY)
-    if (!theme) throw new Error('useTheme doit être utilisé dans un fournisseur de thème')
-    return theme
+    if (!theme) throw new Error('useTheme must be used within a theme provider')
+    return theme as ThemeContext
 }

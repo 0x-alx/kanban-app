@@ -1,22 +1,40 @@
 import type { Board, Task } from '@/types'
 import { reactive } from 'vue'
-export const store = reactive({
-    selectedBoard: {} as Board,
-    onSelectedBoardChange(board: Board) {
-        console.log('onSelectedBoardChange', board)
-        this.selectedBoard = board
+
+interface Store {
+    selectedBoard: Board
+    selectedTask: Task
+    isSidebarHidden: boolean
+    showEditTaskModal: boolean
+    onSelectedBoardChange: (board: Board) => void
+    toggleSidebar: () => void
+    setShowEditTaskModal: (show: boolean) => void
+    setSelectedTask: (task: Task) => void
+}
+
+export const store = reactive<Store>({
+    selectedBoard: {
+        name: '',
+        columns: [],
+    },
+    selectedTask: {
+        id: '',
+        title: '',
+        description: '',
+        status: '',
+        subtasks: [],
     },
     isSidebarHidden: false,
+    showEditTaskModal: false,
+    onSelectedBoardChange(board: Board) {
+        this.selectedBoard = board
+    },
     toggleSidebar() {
-        console.log('toggleSidebar', store.isSidebarHidden)
         this.isSidebarHidden = !this.isSidebarHidden
     },
-    showEditTaskModal: false,
     setShowEditTaskModal(show: boolean) {
-        console.log('setShowEditTaskModal', show)
         this.showEditTaskModal = show
     },
-    selectedTask: {} as Task,
     setSelectedTask(task: Task) {
         this.selectedTask = task
     },

@@ -4,6 +4,7 @@ import { store } from '@/store/store'
 import Checkbox from '@/components/Checbox/Checkbox.vue'
 import Modal from '@/components/Modal/Modal.vue'
 import Select from '@/components/Select/Select.vue'
+
 const isOpen = ref(false)
 
 watchEffect(() => {
@@ -24,7 +25,7 @@ const completedSubtasks = computed(() => {
 
 const statusOptions = computed(() => {
     return store.selectedBoard.columns.map((column) => ({
-        value: column.id,
+        value: column.id.toString(),
         label: column.name,
     }))
 })

@@ -4,7 +4,9 @@ import { store } from '@/store/store'
 import { Button } from '@/components'
 import KanbanBoard from './KanbanBoard.vue'
 import EditTaskModal from './EditTaskModal.vue'
-const columns = ref([])
+import type { Column } from '@/types'
+
+const columns = ref<Column[]>([])
 const isLoading = ref(true)
 
 watchEffect(() => {

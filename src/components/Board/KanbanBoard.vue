@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BoardCard from './BoardCard.vue'
 import KanbanColumn from './KanbanColumn.vue'
+import type { Column } from '@/types'
 
 defineProps<{
     columns: Column[]
