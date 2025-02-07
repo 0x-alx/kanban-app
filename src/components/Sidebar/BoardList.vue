@@ -1,30 +1,43 @@
 <script setup lang="ts">
 import BoardListItem from './BoardListItem.vue'
 import CreateBoardButton from './CreateBoardButton.vue'
-import data from '@/data.json'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject, watch } from 'vue'
 import { store } from '@/store/store'
 import type { Board } from '@/types'
 
-// Add IDs to the data structure
-const boards = ref(
-    data.boards.map((board, boardIndex) => ({
-        ...board,
-        columns: board.columns.map((column, columnIndex) => ({
-            id: `col-${boardIndex}-${columnIndex}`,
-            ...column,
-            tasks: column.tasks.map((task, taskIndex) => ({
-                id: `task-${boardIndex}-${columnIndex}-${taskIndex}`,
-                ...task,
-                subtasks: task.subtasks.map((subtask, subtaskIndex) => ({
-                    id: `subtask-${boardIndex}-${columnIndex}-${taskIndex}-${subtaskIndex}`,
-                    ...subtask,
+const data = inject('data')
+const boards = ref<Board[]>([])
+
+// Watch for data changes and process the boards
+watch(
+    data,
+    (newData) => {
+        if (!newData) return
+
+        boards.value = newData.boards.map((board, boardIndex) => ({
+            ...board,
+            columns: board.columns.map((column, columnIndex) => ({
+                id: `col-${boardIndex}-${columnIndex}`,
+                ...column,
+                tasks: column.tasks.map((task, taskIndex) => ({
+                    id: `task-${boardIndex}-${columnIndex}-${taskIndex}`,
+                    ...task,
+                    subtasks: task.subtasks.map((subtask, subtaskIndex) => ({
+                        id: `subtask-${boardIndex}-${columnIndex}-${taskIndex}-${subtaskIndex}`,
+                        ...subtask,
+                    })),
                 })),
             })),
-        })),
-    })),
-)
+        }))
 
+        // Only set selected board if we have boards and none is selected
+        if (boards.value.length && !store.selectedBoard) {
+            store.selectedBoard = boards.value[0]
+        }
+    },
+    { immediate: true },
+)
+console.log('boards', boards.value)
 onMounted(() => {
     store.selectedBoard = boards.value[0]
 })
