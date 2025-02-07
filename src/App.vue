@@ -3,13 +3,14 @@ import { ref, provide } from 'vue'
 import { Layout, BoardLayout } from './components'
 import { createTheme } from '@/utils/useTheme'
 import { store } from '@/store/store'
+import type { Board } from '@/types'
 
 // Initialize theme provider
 createTheme()
 
-const data = ref(null)
+const data = ref<Board[] | null>(null)
 const isLoading = ref(true)
-const error = ref(null)
+const error = ref<string | null>(null)
 
 const fetchData = async () => {
     isLoading.value = true
