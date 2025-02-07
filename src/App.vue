@@ -28,6 +28,8 @@ const fetchData = async () => {
     } finally {
         isLoading.value = false
     }
+
+    store.onSelectedBoardChange(data.value?.boards[0])
 }
 
 // Provide all necessary state to child components

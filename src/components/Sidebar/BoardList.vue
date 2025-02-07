@@ -37,7 +37,12 @@ const boards = ref<Board[]>([])
 watch(
     data,
     (newData) => {
-        if (!newData) return
+        if (!newData) {
+            console.log('No data available')
+            return
+        }
+
+        console.log('Raw data:', newData) // Debug raw data
 
         boards.value = newData.boards.map((board: Board, boardIndex: number) => ({
             ...board,
@@ -71,12 +76,17 @@ watch(
             }),
         }))
 
-        // Only set selected board if we have boards and none is selected
-        if (boards.value.length && !store.selectedBoard) {
-            store.selectedBoard = boards.value[0]
-        }
+        console.log('Processed boards:', boards.value) // Debug processed boards
     },
     { immediate: true },
+)
+
+// Add watch for store changes
+watch(
+    () => store.selectedBoard,
+    (newBoard) => {
+        console.log('Store board changed:', newBoard)
+    },
 )
 
 /**
@@ -85,9 +95,9 @@ watch(
  * - Sélectionne le premier tableau disponible comme tableau par défaut
  */
 onMounted(() => {
-    if (boards.value.length > 0) {
-        store.selectedBoard = boards.value[0]
-    }
+    console.log('Component mounted')
+    console.log('Initial boards:', boards.value)
+    console.log('Initial store board:', store.selectedBoard)
 })
 
 /**
