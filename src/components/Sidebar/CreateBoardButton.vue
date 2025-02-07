@@ -13,7 +13,7 @@ const onClick = () => {
 
 <template>
     <div
-        class="flex items-center gap-4 h-12 w-full rounded-r-full pl-12 cursor-pointer transition-colors text-primary"
+        class="flex items-center gap-4 h-12 w-full rounded-r-full pl-8 xl:pl-12 cursor-pointer transition-colors text-primary"
         @click="onClick"
     >
         <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">

@@ -23,7 +23,7 @@ const styles = computed(() => {
 
 <template>
     <div
-        class="group flex items-center gap-4 h-12 w-full rounded-r-full pl-12 cursor-pointer transition-colors"
+        class="group flex items-center gap-4 h-12 w-full rounded-r-full pl-8 xl:pl-12 cursor-pointer transition-colors"
         :class="[styles]"
         @click="onClick"
     >

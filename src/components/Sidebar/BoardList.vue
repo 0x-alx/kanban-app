@@ -37,7 +37,7 @@ const handleBoardClick = (board: Board) => {
 <template>
     <div class="flex w-full flex-col gap-4 h-full mt-14">
         <h1
-            class="uppercase text-gray text-xs leading-[var(--line-height-heading-s)] tracking-[var(--letter-spacing-heading-s)] font-bold ml-12"
+            class="uppercase text-gray text-xs leading-[var(--line-height-heading-s)] tracking-[var(--letter-spacing-heading-s)] font-bold ml-8 xl:ml-12"
         >
             ALL BOARDS ({{ boards.length }})
         </h1>
