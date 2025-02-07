@@ -8,7 +8,11 @@ import type { Board } from '@/types'
 // Initialize theme provider
 createTheme()
 
-const data = ref<Board[] | null>(null)
+interface BoardResponse {
+    boards: Board[]
+}
+
+const data = ref<BoardResponse | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
@@ -21,15 +25,19 @@ const fetchData = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
         }
-        data.value = await response.json()
+        const responseData: BoardResponse = await response.json()
+        data.value = responseData
+
+        // Set initial board if available
+        if (responseData.boards.length > 0) {
+            store.onSelectedBoardChange(responseData.boards[0])
+        }
     } catch (e) {
         error.value = e instanceof Error ? e.message : 'An error occurred'
         console.error('Fetch error:', e)
     } finally {
         isLoading.value = false
     }
-
-    store.onSelectedBoardChange(data.value?.boards[0])
 }
 
 // Provide all necessary state to child components
