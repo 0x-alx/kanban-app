@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { store } from '@/store/store'
 import { Button } from '@/components'
 import logoLight from '@/assets/logo-light.svg'
@@ -11,6 +11,12 @@ const { theme } = useTheme()
 
 // Use computed for reactive logo switching
 const currentLogo = computed(() => (theme.value === 'light' ? logoDark : logoLight))
+
+const state = reactive({
+    isOpen: false,
+    totalSubtasks: 0,
+    completedSubtasks: 0,
+})
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watchEffect, computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { store } from '@/store/store'
 import Checkbox from '@/components/Checbox/Checkbox.vue'
 import Modal from '@/components/Modal/Modal.vue'
@@ -7,13 +7,12 @@ import Select from '@/components/Select/Select.vue'
 
 const isOpen = ref(false)
 
-watchEffect(() => {
-    if (store.showEditTaskModal) {
-        isOpen.value = true
-    } else {
-        isOpen.value = false
-    }
-})
+watch(
+    () => store.showEditTaskModal,
+    (newValue) => {
+        isOpen.value = newValue
+    },
+)
 
 const totalSubtasks = computed(() => {
     return store.selectedTask.subtasks.length
@@ -50,9 +49,11 @@ const statusOptions = computed(() => {
             </div>
             <div class="flex flex-col gap-3 items-center justify-between">
                 <Checkbox
-                    v-for="subtask in store.selectedTask.subtasks"
+                    v-for="(subtask, index) in store.selectedTask.subtasks"
                     :key="subtask.id"
                     :subtask="subtask"
+                    v-model="store.selectedTask.subtasks[index].isCompleted"
+                    @update:modelValue="(value) => updateSubtaskStatus(index, value)"
                 />
             </div>
             <Select label="Status" :options="statusOptions" />
