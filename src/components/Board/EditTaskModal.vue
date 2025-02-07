@@ -15,22 +15,26 @@ watch(
 )
 
 const totalSubtasks = computed(() => {
-    return store.selectedTask.subtasks.length
+    return store.selectedTask?.subtasks?.length || 0
 })
 
 const completedSubtasks = computed(() => {
-    return store.selectedTask.subtasks.filter((subtask) => subtask.isCompleted).length
+    return store.selectedTask?.subtasks?.filter((subtask) => subtask.isCompleted)?.length || 0
 })
 
 const statusOptions = computed(() => {
+    if (!store.selectedBoard?.columns) {
+        return []
+    }
+
     return store.selectedBoard.columns.map((column) => ({
-        value: column.id.toString(),
+        value: column.id?.toString() || '',
         label: column.name,
     }))
 })
 
 const updateSubtaskStatus = (index: number, value: boolean) => {
-    if (store.selectedTask && store.selectedTask.subtasks) {
+    if (store.selectedTask?.subtasks) {
         store.selectedTask.subtasks[index].isCompleted = value
     }
 }
@@ -43,10 +47,10 @@ const updateSubtaskStatus = (index: number, value: boolean) => {
             @click.stop
         >
             <div class="flex items-center justify-between">
-                <h1 class="text-text text-lg font-bold">{{ store.selectedTask.title }}</h1>
+                <h1 class="text-text text-lg font-bold">{{ store.selectedTask?.title }}</h1>
             </div>
             <div class="flex items-center justify-between">
-                <h2 class="text-gray text-sm font-bold">{{ store.selectedTask.description }}</h2>
+                <h2 class="text-gray text-sm font-bold">{{ store.selectedTask?.description }}</h2>
             </div>
             <div class="flex items-center justify-between">
                 <h3 class="text-gray text-sm font-bold">
@@ -55,14 +59,14 @@ const updateSubtaskStatus = (index: number, value: boolean) => {
             </div>
             <div class="flex flex-col gap-3 items-center justify-between">
                 <Checkbox
-                    v-for="(subtask, index) in store.selectedTask.subtasks"
+                    v-for="(subtask, index) in store.selectedTask?.subtasks"
                     :key="subtask.id"
                     :subtask="subtask"
                     v-model="store.selectedTask.subtasks[index].isCompleted"
                     @update:modelValue="(value) => updateSubtaskStatus(index, value)"
                 />
             </div>
-            <Select label="Status" :options="statusOptions" />
+            <Select v-if="statusOptions.length > 0" label="Status" :options="statusOptions" />
         </div>
     </Modal>
 </template>
