@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { watch, computed, inject } from 'vue'
-import ThemeToggle from '../ThemeToggle/ThemeToggle.vue'
-import { useTheme } from '@/utils/useTheme'
-import logoLight from '@/assets/logo-light.svg'
-import logoDark from '@/assets/logo-dark.svg'
+import { ThemeToggle } from '@/components'
 import BoardList from './BoardList.vue'
+// import HideSidebarButton from './HideSidebarButton.vue' /* PartiallyEnd: #3632/scriptSetup.vue */ /* PartiallyEnd: #3632/scriptSetup.vue */
 import HideSidebarButton from './HideSidebarButton.vue'
-const { theme } = useTheme()
-import { store } from '@/store/store'
 </script>
 
 <template>

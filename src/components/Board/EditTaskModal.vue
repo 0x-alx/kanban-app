@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue'
+import { Checkbox, Modal, Select } from '@/components'
 import { store } from '@/store/store'
-import Checkbox from '@/components/Checbox/Checkbox.vue'
-import Modal from '@/components/Modal/Modal.vue'
-import Select from '@/components/Select/Select.vue'
+import { computed, ref, watch } from 'vue'
 
 const isOpen = ref(false)
 

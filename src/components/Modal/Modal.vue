@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref, watchEffect, computed } from 'vue'
 import { store } from '@/store/store'
 
 const props = defineProps<{
