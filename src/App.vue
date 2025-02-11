@@ -22,7 +22,7 @@ const fetchData = async () => {
         const responseData: Board[] = await response.json()
         data.value = responseData
         console.log('App.vue => initial board fetch', responseData)
-        console.log('App.vue => initial board id', responseData[0])
+        console.log('App.vue => set store board', responseData[0])
         store.onSelectedBoardChange(responseData[0])
     } catch (e) {
         error.value = e instanceof Error ? e.message : 'An error occurred'

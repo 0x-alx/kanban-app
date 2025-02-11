@@ -1,20 +1,29 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { store } from '@/store/store'
 import { Button } from '@/components'
-import KanbanBoard from './KanbanBoard.vue'
-import EditTaskModal from './EditTaskModal.vue'
+import { store } from '@/store/store'
 import type { Column } from '@/types'
+import { provide, ref, watchEffect } from 'vue'
+import EditTaskModal from './EditTaskModal.vue'
+import KanbanBoard from './KanbanBoard.vue'
 
 const columns = ref<Column[]>([])
 const isLoading = ref(true)
 
+const fetchColumns = async () => {
+    const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/columns/?boardId=${store.selectedBoard.id}`,
+    )
+    const data: Column[] = await response.json()
+    columns.value = data
+    console.log('BoardLayout.vue => columns', columns.value)
+    isLoading.value = false
+}
 watchEffect(() => {
-    if (store.selectedBoard?.columns) {
-        columns.value = store.selectedBoard.columns
-        isLoading.value = false
-    }
+    if (!store.selectedBoard.id) return
+    fetchColumns()
 })
+
+provide('columns', columns)
 </script>
 
 <template>

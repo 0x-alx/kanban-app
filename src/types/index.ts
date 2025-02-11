@@ -4,19 +4,29 @@ export interface Subtask {
     id?: string | number
     title: string
     isCompleted: boolean
+    taskId: string
+    createdAt: Date | undefined
+    updatedAt: Date | undefined
 }
 
 export interface Task {
-    id: string | number
+    id: string
     title: string
     description: string
-    status: string
+    boardId: string
+    columnId: string
+    createdAt: Date | undefined
+    updatedAt: Date | undefined
     subtasks: Subtask[]
 }
 
 export interface Column {
-    id: string | number
+    id: string
     name: string
+    createdAt: Date | undefined
+    updatedAt: Date | undefined
+    boardId: string
+    position: number
     tasks: Task[]
 }
 

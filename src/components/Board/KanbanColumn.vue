@@ -1,12 +1,26 @@
 <script setup lang="ts">
-import BoardCard from './BoardCard.vue'
+import { store } from '@/store/store'
 import type { Task } from '@/types'
-
-defineProps<{
+import { ref, watchEffect } from 'vue'
+import BoardCard from './BoardCard.vue'
+const props = defineProps<{
     label: string
     tasks: Task[]
     taskCount: number
 }>()
+
+const tasks = ref<Task[]>([])
+
+watchEffect(() => {
+    tasks.value = props.tasks
+    console.log('KanbanColumn.vue => tasks', tasks.value)
+})
+
+const onTaskClick = (task: Task) => {
+    store.setSelectedTask(task)
+    store.setShowEditTaskModal(true)
+    console.log('KanbanColumn.vue => open modal', store.showEditTaskModal)
+}
 </script>
 
 <template>
@@ -19,6 +33,12 @@ defineProps<{
         </h3>
     </div>
     <div class="flex flex-col gap-4">
-        <BoardCard v-for="task in tasks" :key="task.id" :title="task.title" :task="task" />
+        <BoardCard
+            v-for="task in tasks"
+            :key="task.id"
+            :title="task.title"
+            :subtasks="task.subtasks"
+            @click="onTaskClick(task)"
+        />
     </div>
 </template>

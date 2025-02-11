@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { Checkbox, Modal, Select } from '@/components'
+import { Checkbox, Modal } from '@/components'
 import { store } from '@/store/store'
-import { computed, ref, watch } from 'vue'
+import type { Column } from '@/types'
+import { inject, ref, watch, watchEffect } from 'vue'
+import Select from '../Select/Select.vue'
 
 const isOpen = ref(false)
 
@@ -11,31 +13,15 @@ watch(
         isOpen.value = newValue
     },
 )
+const columns = inject<Column[]>('columns')
 
-const totalSubtasks = computed(() => {
-    return store.selectedTask?.subtasks?.length || 0
+watchEffect(() => {
+    console.log('EditTaskModal.vue => columns', columns)
 })
 
-const completedSubtasks = computed(() => {
-    return store.selectedTask?.subtasks?.filter((subtask) => subtask.isCompleted)?.length || 0
-})
+const completedSubtasks = ref(0)
 
-const statusOptions = computed(() => {
-    if (!store.selectedBoard?.columns) {
-        return []
-    }
-
-    return store.selectedBoard.columns.map((column) => ({
-        value: column.id?.toString() || '',
-        label: column.name,
-    }))
-})
-
-const updateSubtaskStatus = (index: number, value: boolean) => {
-    if (store.selectedTask?.subtasks) {
-        store.selectedTask.subtasks[index].isCompleted = value
-    }
-}
+const totalSubtasks = ref(0)
 </script>
 
 <template>
@@ -52,7 +38,7 @@ const updateSubtaskStatus = (index: number, value: boolean) => {
             </div>
             <div class="flex items-center justify-between">
                 <h3 class="text-gray text-sm font-bold">
-                    Subtasks ({{ completedSubtasks }} of {{ totalSubtasks }})
+                    Subtasks ({{ completedSubtasks }} of {{ store.selectedTask?.subtasks.length }})
                 </h3>
             </div>
             <div class="flex flex-col gap-3 items-center justify-between">
@@ -61,10 +47,17 @@ const updateSubtaskStatus = (index: number, value: boolean) => {
                     :key="subtask.id"
                     :subtask="subtask"
                     v-model="store.selectedTask.subtasks[index].isCompleted"
-                    @update:modelValue="(value) => updateSubtaskStatus(index, value)"
                 />
             </div>
-            <Select v-if="statusOptions.length > 0" label="Status" :options="statusOptions" />
+            <Select
+                label="Status"
+                :options="
+                    columns?.map((column: Column) => ({
+                        value: column.name,
+                        label: column.name,
+                    })) || []
+                "
+            />
         </div>
     </Modal>
 </template>

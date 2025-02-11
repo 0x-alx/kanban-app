@@ -1,33 +1,26 @@
 <script setup lang="ts">
+import type { Subtask } from '@/types'
 import { computed } from 'vue'
-import { store } from '@/store/store'
-import type { Task } from '@/types'
 
 const props = defineProps<{
     title: string
-    task: Task
+    subtasks: Subtask[]
 }>()
-
-const completedSubtasks = computed(() => {
-    return props.task.subtasks.filter((subtask) => subtask.isCompleted)
-})
-
-const totalSubtasks = computed(() => {
-    return props.task.subtasks.length
-})
 
 const onTaskClick = () => {
     console.log('onTaskClick')
-    store.setShowEditTaskModal(true)
-    store.setSelectedTask(props.task)
 }
+
+const completedSubtasks = computed(() => {
+    return props.subtasks.filter((subtask) => subtask.isCompleted).length
+})
 </script>
 
 <template>
     <div class="bg-surface rounded-lg p-4 w-[280px] shadow-md cursor-pointer" @click="onTaskClick">
         <h3 class="text-text text-md font-bold">{{ title }}</h3>
         <span class="text-gray text-sm font-bold"
-            >{{ completedSubtasks.length }} of {{ totalSubtasks }} subtasks</span
+            >{{ completedSubtasks }} of {{ subtasks.length }} subtasks</span
         >
     </div>
 </template>
