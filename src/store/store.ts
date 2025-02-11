@@ -1,4 +1,4 @@
-import type { Board, Task } from '@/types'
+import type { Board, Subtask, Task } from '@/types'
 import { reactive } from 'vue'
 
 interface Store {
@@ -11,6 +11,7 @@ interface Store {
     setShowEditTaskModal: (show: boolean) => void
     setSelectedTask: (task: Task) => void
     updateTaskColumn: (taskId: string, columnId: string) => void
+    updateTaskSubtasks: (taskId: string, subtasks: Subtask[]) => void
 }
 
 export const store = reactive<Store>({
@@ -47,6 +48,11 @@ export const store = reactive<Store>({
     updateTaskColumn(taskId: string, columnId: string) {
         if (this.selectedTask.id === taskId) {
             this.selectedTask.columnId = columnId
+        }
+    },
+    updateTaskSubtasks(taskId: string, subtasks: Subtask[]) {
+        if (this.selectedTask.id === taskId) {
+            this.selectedTask.subtasks = subtasks
         }
     },
 })
