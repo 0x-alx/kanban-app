@@ -21,8 +21,10 @@ export interface Column {
 }
 
 export interface Board {
+    id: string
     name: string
-    columns: Column[]
+    createdAt: Date | undefined
+    updatedAt: Date | undefined
 }
 
 export interface Theme {

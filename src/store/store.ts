@@ -14,8 +14,10 @@ interface Store {
 
 export const store = reactive<Store>({
     selectedBoard: {
+        id: '',
         name: '',
-        columns: [],
+        createdAt: undefined,
+        updatedAt: undefined,
     },
     selectedTask: {
         id: '',
@@ -26,7 +28,7 @@ export const store = reactive<Store>({
     },
     isSidebarHidden: false,
     showEditTaskModal: false,
-    onSelectedBoardChange(board: Board) {
+    onSelectedBoardChange(board: any) {
         this.selectedBoard = board
     },
     toggleSidebar() {
