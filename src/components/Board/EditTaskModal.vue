@@ -2,10 +2,13 @@
 import { Checkbox, Modal } from '@/components'
 import { store } from '@/store/store'
 import type { Column } from '@/types'
-import { inject, ref, watch, watchEffect } from 'vue'
+import type { Ref } from 'vue'
+import { computed, inject, ref, watch, watchEffect } from 'vue'
 import Select from '../Select/Select.vue'
 
 const isOpen = ref(false)
+const status = ref('')
+const columns = inject('columns') as Ref<Column[]>
 
 watch(
     () => store.showEditTaskModal,
@@ -13,15 +16,40 @@ watch(
         isOpen.value = newValue
     },
 )
-const columns = inject<Column[]>('columns')
+
+const defaultStatus = computed(() => {
+    if (store.selectedTask && columns) {
+        const currentColumn = columns.value.find((col) => col.id === store.selectedTask.columnId)
+        return currentColumn?.name || ''
+    }
+    return ''
+})
 
 watchEffect(() => {
+    console.log('EditTaskModal.vue => store.selectedTask', store.selectedTask)
     console.log('EditTaskModal.vue => columns', columns)
+    console.log('EditTaskModal.vue => Array.isArray(columns)', typeof columns)
+    console.log('EditTaskModal.vue => status', status.value)
 })
 
 const completedSubtasks = ref(0)
 
-const totalSubtasks = ref(0)
+const handleChange = async (value: string) => {
+    console.log('EditTaskModal.vue => value', value)
+    const columnId = columns.value.find((column) => column.name === value)?.id
+
+    const update = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/tasks/${store.selectedTask?.id}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ columnId: columnId }),
+        },
+    )
+    console.log('EditTaskModal.vue => update', update)
+}
 </script>
 
 <template>
@@ -51,12 +79,14 @@ const totalSubtasks = ref(0)
             </div>
             <Select
                 label="Status"
+                :selectedValue="defaultStatus"
                 :options="
                     columns?.map((column: Column) => ({
                         value: column.name,
                         label: column.name,
                     })) || []
                 "
+                :handleChange="handleChange"
             />
         </div>
     </Modal>
