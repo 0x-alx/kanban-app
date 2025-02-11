@@ -10,6 +10,7 @@ interface Store {
     toggleSidebar: () => void
     setShowEditTaskModal: (show: boolean) => void
     setSelectedTask: (task: Task) => void
+    updateTaskColumn: (taskId: string, columnId: string) => void
 }
 
 export const store = reactive<Store>({
@@ -27,6 +28,7 @@ export const store = reactive<Store>({
         columnId: '',
         createdAt: undefined,
         updatedAt: undefined,
+        subtasks: [],
     },
     isSidebarHidden: false,
     showEditTaskModal: false,
@@ -41,5 +43,10 @@ export const store = reactive<Store>({
     },
     setSelectedTask(task: Task) {
         this.selectedTask = task
+    },
+    updateTaskColumn(taskId: string, columnId: string) {
+        if (this.selectedTask.id === taskId) {
+            this.selectedTask.columnId = columnId
+        }
     },
 })

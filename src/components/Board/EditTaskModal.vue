@@ -35,20 +35,46 @@ watchEffect(() => {
 const completedSubtasks = ref(0)
 
 const handleChange = async (value: string) => {
-    console.log('EditTaskModal.vue => value', value)
-    const columnId = columns.value.find((column) => column.name === value)?.id
+    const column = columns.value.find((column) => column.name === value)
+    if (!column || !store.selectedTask) return
 
-    const update = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/tasks/${store.selectedTask?.id}`,
-        {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/tasks/${store.selectedTask.id}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ columnId: column.id }),
             },
-            body: JSON.stringify({ columnId: columnId }),
-        },
-    )
-    console.log('EditTaskModal.vue => update', update)
+        )
+
+        if (response.ok) {
+            // Update local state
+            const oldColumnIndex = columns.value.findIndex(
+                (col) => col.id === store.selectedTask.columnId,
+            )
+            const newColumnIndex = columns.value.findIndex((col) => col.id === column.id)
+
+            if (oldColumnIndex !== -1 && newColumnIndex !== -1) {
+                // Remove task from old column
+                const taskIndex = columns.value[oldColumnIndex].tasks.findIndex(
+                    (task) => task.id === store.selectedTask.id,
+                )
+                if (taskIndex !== -1) {
+                    const task = columns.value[oldColumnIndex].tasks.splice(taskIndex, 1)[0]
+                    // Add task to new column
+                    task.columnId = column.id
+                    columns.value[newColumnIndex].tasks.push(task)
+                    // Update store
+                    store.updateTaskColumn(task.id, column.id)
+                }
+            }
+        }
+    } catch (error) {
+        console.error('EditTaskModal.vue => error', error)
+    }
 }
 </script>
 
