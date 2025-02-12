@@ -10,7 +10,7 @@ const props = defineProps<{
     <div
         v-if="props.isOpen"
         class="fixed flex items-center justify-center inset-0 bg-black/30 backdrop-blur-xs z-50"
-        @click="store.setShowEditTaskModal(false)"
+        @click="store.setShowEditTaskModal(false) || store.setShowCreateTaskModal(false)"
     >
         <slot />
     </div>

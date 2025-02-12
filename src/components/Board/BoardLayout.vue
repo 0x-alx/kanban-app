@@ -3,6 +3,7 @@ import { Button } from '@/components'
 import { store } from '@/store/store'
 import type { Column } from '@/types'
 import { provide, ref, watchEffect } from 'vue'
+import CreateTaskModal from './CreateTaskModal.vue'
 import EditTaskModal from './EditTaskModal.vue'
 import KanbanBoard from './KanbanBoard.vue'
 
@@ -15,6 +16,7 @@ const fetchColumns = async () => {
     )
     const data: Column[] = await response.json()
     columns.value = data
+    store.setColumnsList(columns.value)
     console.log('BoardLayout.vue => columns', columns.value)
     isLoading.value = false
 }
@@ -41,5 +43,6 @@ provide('columns', columns)
             <KanbanBoard :columns="columns" :isLoading="isLoading" />
         </div>
         <EditTaskModal />
+        <CreateTaskModal />
     </div>
 </template>

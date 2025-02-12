@@ -1,17 +1,21 @@
-import type { Board, Subtask, Task } from '@/types'
+import type { Board, Column, Subtask, Task } from '@/types'
 import { reactive } from 'vue'
 
 interface Store {
     selectedBoard: Board
+    columnsList: Column[]
     selectedTask: Task
     isSidebarHidden: boolean
     showEditTaskModal: boolean
+    showCreateTaskModal: boolean
     onSelectedBoardChange: (board: Board) => void
     toggleSidebar: () => void
     setShowEditTaskModal: (show: boolean) => void
+    setShowCreateTaskModal: (show: boolean) => void
     setSelectedTask: (task: Task) => void
     updateTaskColumn: (taskId: string, columnId: string) => void
     updateTaskSubtasks: (taskId: string, subtasks: Subtask[]) => void
+    setColumnsList: (columns: Column[]) => void
 }
 
 export const store = reactive<Store>({
@@ -33,6 +37,8 @@ export const store = reactive<Store>({
     },
     isSidebarHidden: false,
     showEditTaskModal: false,
+    showCreateTaskModal: false,
+    columnsList: [],
     onSelectedBoardChange(board: any) {
         this.selectedBoard = board
     },
@@ -54,5 +60,11 @@ export const store = reactive<Store>({
         if (this.selectedTask.id === taskId) {
             this.selectedTask.subtasks = subtasks
         }
+    },
+    setShowCreateTaskModal(show: boolean) {
+        this.showCreateTaskModal = show
+    },
+    setColumnsList(columns: Column[]) {
+        this.columnsList = columns
     },
 })
