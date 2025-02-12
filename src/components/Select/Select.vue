@@ -5,6 +5,8 @@ defineProps<{
         value: string
         label: string
     }[]
+    selectedValue: string
+    handleChange: (value: string) => void
 }>()
 </script>
 <template>
@@ -12,12 +14,14 @@ defineProps<{
         <label class="text-sm text-gray-500 font-bold">{{ label }}</label>
         <select
             class="w-full p-2 rounded-md border border-gray-300 bg-surface text-gray-500 font-bold"
+            @change="(e) => handleChange((e.target as HTMLSelectElement).value)"
         >
             <option
                 v-for="option in options"
                 :key="option.value"
                 :value="option.value"
                 class="text-sm text-gray-500"
+                :selected="option.value === selectedValue"
             >
                 {{ option.label }}
             </option>

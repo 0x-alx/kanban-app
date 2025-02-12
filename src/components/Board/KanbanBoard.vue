@@ -1,38 +1,29 @@
 <script setup lang="ts">
-import BoardCard from './BoardCard.vue'
-import KanbanColumn from './KanbanColumn.vue'
 import type { Column } from '@/types'
-import { computed } from 'vue'
+import { ref, watchEffect } from 'vue'
+import KanbanColumn from './KanbanColumn.vue'
 
 const props = defineProps<{
     columns: Column[]
     isLoading: boolean
 }>()
 
-// Computed property for filtered and sorted columns
-const processedColumns = computed(() => {
-    return props.columns.map((column) => ({
-        ...column,
-        taskCount: column.tasks.length,
-    }))
-})
+const columns = ref<Column[]>([])
 
-// Computed property for checking if there are any columns
-const hasColumns = computed(() => processedColumns.value.length > 0)
+watchEffect(() => {
+    columns.value = props.columns
+    console.log('KanbanBoard.vue => Tasks', columns.value[0].tasks)
+})
 </script>
 
 <template>
     <div v-if="isLoading" class="flex items-center justify-center w-full h-full">Loading...</div>
     <div v-else class="flex gap-4 min-w-min p-6">
-        <div
-            v-for="column in processedColumns"
-            :key="column.name"
-            class="flex flex-col gap-4 rounded-lg p-4"
-        >
+        <div v-for="column in columns" :key="column.id" class="flex flex-col gap-4 rounded-lg p-4">
             <KanbanColumn
                 :label="column.name"
                 :tasks="column.tasks"
-                :task-count="column.taskCount"
+                :task-count="column.tasks.length"
             />
         </div>
         <div

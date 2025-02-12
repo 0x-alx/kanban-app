@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue'
-import { Layout, BoardLayout } from './components'
-import { createTheme } from '@/utils/useTheme'
 import { store } from '@/store/store'
 import type { Board } from '@/types'
-
-// Initialize theme provider
+import { createTheme } from '@/utils/useTheme'
+import { provide, ref } from 'vue'
+import { BoardLayout, Layout } from './components'
 createTheme()
 
-interface BoardResponse {
-    boards: Board[]
-}
-
-const data = ref<BoardResponse | null>(null)
+const data = ref<any>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
@@ -25,13 +19,11 @@ const fetchData = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
         }
-        const responseData: BoardResponse = await response.json()
+        const responseData: Board[] = await response.json()
         data.value = responseData
-
-        // Set initial board if available
-        if (responseData.boards.length > 0) {
-            store.onSelectedBoardChange(responseData.boards[0])
-        }
+        console.log('App.vue => initial board fetch', responseData)
+        console.log('App.vue => set store board', responseData[0])
+        store.onSelectedBoardChange(responseData[0])
     } catch (e) {
         error.value = e instanceof Error ? e.message : 'An error occurred'
         console.error('Fetch error:', e)
