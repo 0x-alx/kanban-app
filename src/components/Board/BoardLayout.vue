@@ -2,7 +2,7 @@
 import { Button } from '@/components'
 import { store } from '@/store/store'
 import type { Column } from '@/types'
-import { provide, ref, watchEffect } from 'vue'
+import { provide, ref, watch, watchEffect } from 'vue'
 import CreateTaskModal from './CreateTaskModal.vue'
 import EditTaskModal from './EditTaskModal.vue'
 import KanbanBoard from './KanbanBoard.vue'
@@ -24,6 +24,17 @@ watchEffect(() => {
     if (!store.selectedBoard.id) return
     fetchColumns()
 })
+
+// Add new watcher for refresh events
+watch(
+    () => store.shouldRefreshBoard,
+    (newValue) => {
+        if (newValue) {
+            fetchColumns()
+            store.setShouldRefreshBoard(false)
+        }
+    },
+)
 
 provide('columns', columns)
 </script>

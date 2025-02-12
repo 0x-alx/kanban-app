@@ -59,24 +59,8 @@ const handleChange = (value: string) => {
     const column = columns.value.find((col) => col.name === value)
     if (!column || !store.selectedTask) return
 
-    // Update local state immediately for UI feedback
-    const oldColumnIndex = columns.value.findIndex((col) => col.id === store.selectedTask.columnId)
-    const newColumnIndex = columns.value.findIndex((col) => col.id === column.id)
-
-    if (oldColumnIndex !== -1 && newColumnIndex !== -1) {
-        // Remove task from old column
-        const taskIndex = columns.value[oldColumnIndex].tasks.findIndex(
-            (task) => task.id === store.selectedTask.id,
-        )
-        if (taskIndex !== -1) {
-            const task = columns.value[oldColumnIndex].tasks.splice(taskIndex, 1)[0]
-            // Add task to new column
-            task.columnId = column.id
-            columns.value[newColumnIndex].tasks.push(task)
-            // Update store
-            store.updateTaskColumn(task.id, column.id)
-        }
-    }
+    // Just update the task's columnId in the store
+    store.updateTaskColumn(store.selectedTask.id, column.id)
 }
 
 // Handle all API updates in handleSave
@@ -124,6 +108,8 @@ const handleSave = async () => {
 
         // Close modal after successful update
         store.setShowEditTaskModal(false)
+        // Trigger board refresh
+        store.refreshBoard()
     } catch (error) {
         console.error('EditTaskModal.vue => error saving task:', error)
     }

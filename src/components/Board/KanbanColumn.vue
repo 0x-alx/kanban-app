@@ -17,6 +17,7 @@ watchEffect(() => {
 })
 
 const onTaskClick = (task: Task) => {
+    console.log('KanbanColumn.vue => task', task.id)
     store.setSelectedTask(task)
     store.setShowEditTaskModal(true)
     console.log('KanbanColumn.vue => open modal', store.showEditTaskModal)

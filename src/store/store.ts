@@ -16,6 +16,9 @@ interface Store {
     updateTaskColumn: (taskId: string, columnId: string) => void
     updateTaskSubtasks: (taskId: string, subtasks: Subtask[]) => void
     setColumnsList: (columns: Column[]) => void
+    shouldRefreshBoard: boolean
+    refreshBoard: () => void
+    setShouldRefreshBoard: (value: boolean) => void
 }
 
 export const store = reactive<Store>({
@@ -39,6 +42,7 @@ export const store = reactive<Store>({
     showEditTaskModal: false,
     showCreateTaskModal: false,
     columnsList: [],
+    shouldRefreshBoard: false,
     onSelectedBoardChange(board: any) {
         this.selectedBoard = board
     },
@@ -66,5 +70,11 @@ export const store = reactive<Store>({
     },
     setColumnsList(columns: Column[]) {
         this.columnsList = columns
+    },
+    refreshBoard() {
+        this.shouldRefreshBoard = true
+    },
+    setShouldRefreshBoard(value: boolean) {
+        this.shouldRefreshBoard = value
     },
 })
